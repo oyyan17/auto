@@ -8,7 +8,7 @@
         async function openLinksInChrome() {
             try {
                 // Ambil daftar URL dari link.txt (GANTI dengan lokasi file di server)
-                let response = await fetch("https://example.com/link.txt");  
+                let response = await fetch("link.txt");  
                 let links = await response.text();
                 let urlList = links.split(/\r?\n/).map(url => url.trim()).filter(url => url !== ""); // Hapus baris kosong
                 
