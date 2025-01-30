@@ -1,0 +1,2 @@
+# auto
+auto open link
