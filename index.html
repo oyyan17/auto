@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Open Links in LINE Extension</title>
+    <script>
+        async function openLinksInChrome() {
+            try {
+                // Ambil daftar URL dari link.txt (GANTI dengan lokasi file di server)
+                let response = await fetch("https://example.com/link.txt");  
+                let links = await response.text();
+                let urlList = links.split(/\r?\n/).map(url => url.trim()).filter(url => url !== ""); // Hapus baris kosong
+                
+                let index = 0;
+
+                function openNextLink() {
+                    if (index < urlList.length) {
+                        let targetURL = urlList[index];
+                        console.log("Membuka:", targetURL);
+
+                        // Buka link dalam tab baru di Chrome (termasuk LINE Extension)
+                        window.open(targetURL, "_blank");
+
+                        // Delay 2 detik sebelum membuka link berikutnya untuk mencegah blokir pop-up
+                        index++;
+                        setTimeout(openNextLink, 2000);
+                    } else {
+                        console.log("Semua link telah dibuka!");
+                    }
+                }
+
+                openNextLink(); // Mulai membuka link satu per satu
+
+            } catch (error) {
+                console.error("Gagal mengambil daftar URL dari link.txt:", error);
+            }
+        }
+
+        // Jalankan otomatis saat halaman dimuat
+        window.onload = openLinksInChrome;
+    </script>
+</head>
+<body>
+    <h1>Membuka Semua Link di LINE Extension Chrome...</h1>
+</body>
+</html>
