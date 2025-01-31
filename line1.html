@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auto Open Links in LINE Extension</title>
     <script>
+        function detectLINEApp() {
+            let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (userAgent.includes("Line")) {
+                document.getElementById("status").innerText = "Dibuka melalui Aplikasi LINE ✅";
+                openLinksInChrome(); // Jalankan auto clicker jika sudah di LINE
+            } else {
+                document.getElementById("status").innerText = "Tidak dibuka melalui Aplikasi LINE ❌";
+                
+                // Opsi: Arahkan pengguna ke LINE jika tidak dibuka dari sana
+                setTimeout(() => {
+                    window.location.href = "line://msg/text/?Silakan%20buka%20di%20LINE";
+                }, 3000); // Redirect setelah 3 detik
+            }
+        }
+
         async function openLinksInChrome() {
             try {
                 // Ambil daftar URL dari link.txt (GANTI dengan lokasi file di server)
@@ -37,11 +53,12 @@
             }
         }
 
-        // Jalankan otomatis saat halaman dimuat
-        window.onload = openLinksInChrome;
+        // Jalankan deteksi LINE saat halaman dimuat
+        window.onload = detectLINEApp;
     </script>
 </head>
 <body>
     <h1>Membuka Semua Link di LINE Extension Chrome...</h1>
+    <p id="status">Memeriksa apakah dibuka dari LINE...</p>
 </body>
 </html>
